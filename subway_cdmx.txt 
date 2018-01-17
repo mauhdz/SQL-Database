@@ -1,0 +1,606 @@
+/*  * Name: Luis Mauricio Hernandez Rodriguez * Username: hernanluis * ID: 300412504 */
+/* SCHEMA*/
+CREATE TABLE stops(
+  stop_id    INTEGER PRIMARY KEY,
+  stop_name  TEXT, 
+  stop_zone INTEGER,
+  FOREIGN KEY(stop_zone) REFERENCES zones(zone_id)
+);
+
+CREATE TABLE zones(
+  zone_id     INTEGER PRIMARY KEY AUTOINCREMENT, 
+  zone_name   TEXT
+);
+
+CREATE TABLE routes(
+  route_id     INTEGER PRIMARY KEY AUTOINCREMENT, 
+  route_name   TEXT 
+);
+
+CREATE TABLE connections(
+    stop_id INTEGER,
+    route_id INTEGER,
+    last_stop INTEGER,
+  	next_stop INTEGER,
+    PRIMARY KEY(stop_id,route_id),
+    FOREIGN KEY(stop_id) REFERENCES stops,
+    FOREIGN KEY(route_id) REFERENCES routes
+);
+
+CREATE TABLE subways(
+	subway_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	subway_route INTEGER,
+	subway_direction INTEGER,
+	subway_current_stop INTEGER,
+	FOREIGN KEY(subway_route) REFERENCES routes
+);
+
+CREATE TABLE drivers(
+	driver_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	driver_fname TEXT,
+	driver_lname TEXT,
+	driver_shift_start INTEGER,
+	driver_shift_hours INTEGER,
+	driver_sub INTEGER,
+	FOREIGN KEY(driver_sub) REFERENCES subways(subway_id)
+);
+
+CREATE TABLE disruptions(
+    dis_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dis_name TEXT,
+    dis_stop INTEGER,
+    dis_route INTEGER,
+    dis_start_hr INTEGER,
+    dis_startD INTEGER,
+    dis_startM INTEGER,
+    dis_startY INTEGER,
+    dis_end_hr INTEGER,
+    dis_endD INTEGER,
+    dis_endM INTEGER,
+    dis_endY INTEGER,
+    FOREIGN KEY(dis_stop) REFERENCES stops(stop_id)
+    FOREIGN KEY(dis_route) REFERENCES routes(route_id)
+);
+
+
+/* DATA*/
+/* ZONES*/
+INSERT INTO zones(zone_name) VALUES ("C");
+INSERT INTO zones(zone_name) VALUES ("N");
+INSERT INTO zones(zone_name) VALUES ("S");
+INSERT INTO zones(zone_name) VALUES ("W");
+INSERT INTO zones(zone_name) VALUES ("E");
+INSERT INTO zones(zone_name) VALUES ("NW");
+INSERT INTO zones(zone_name) VALUES ("NE");
+INSERT INTO zones(zone_name) VALUES ("SW");
+INSERT INTO zones(zone_name) VALUES ("SE");
+
+/* ROUTES*/
+INSERT INTO routes (route_name) VALUES ("PINK");
+INSERT INTO routes (route_name) VALUES ("BLUE");
+INSERT INTO routes (route_name) VALUES ("GREEN");
+INSERT INTO routes (route_name) VALUES ("WATER GREEN");
+INSERT INTO routes (route_name) VALUES ("YELLOW");
+INSERT INTO routes (route_name) VALUES ("RED");
+INSERT INTO routes (route_name) VALUES ("ORANGE");
+INSERT INTO routes (route_name) VALUES ("FLAG GREEN");
+INSERT INTO routes (route_name) VALUES ("BROWN");
+INSERT INTO routes (route_name) VALUES ("A");
+INSERT INTO routes (route_name) VALUES ("B");
+INSERT INTO routes (route_name) VALUES ("GOLDEN");
+
+/* STOPS*/
+/*PINK ROUTE 1*/
+INSERT INTO stops(stop_id, stop_name,stop_zone) VALUES (1,"PANTITLAN",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(1,1,2,2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(1,5,81,81);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(1,9,116,116);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(1,10,123,123);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (2,"ZARAGOZA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(2,1,1,3);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (3,"GOMEZ FARIAS",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(3,1,2,4);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (4,"BOULEVARD PTO AEREO",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(4,1,3,5);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (5,"BALBUENA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(5,1,4,6);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (6,"MOCTEZUMA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(6,1,5,7);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (7,"SAN LAZARO",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(7,11,6,8);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (8,"CANDELARIA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(8,1,7,9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(8,4,68,69);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (9,"MERCED",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(9,1,8,10);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (10,"PINO SUAREZ",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(10,1,9,11);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(10,2,33,34);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (11,"ISABEL LA CATOLICA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(11,1,10,12);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (12,"SALTO DEL AGUA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(12,1,11,13);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(12,8,102,103);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (13,"BALDERAS",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(13,1,12,14);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(13,3,50,51);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (14,"CUAUHTEMOC",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(14,1,13,15);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (15,"INSURGENTES",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(15,1,14,16);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (16,"SEVILLA",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(16,1,15,17);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (17,"CHAPULTEPEC",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(17,1,16,18);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (18,"JUANACATLAN",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(18,1,17,19);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (19,"TACUBAYA",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(19,1,18,20);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(19,7,96,97);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(19,9,122,122);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (20,"OBSERVATORIO",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(20,1,19,19);
+
+/*BLUE ROUTE 2*/
+
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (21,"CUATRO CAMINOS",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(21,2,22,22);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (22,"PANTEONES",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(22,2,21,23);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (23,"TACUBA",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(23,2,22,24);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(23,7,92,93);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (24,"CUITLAHUAC",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(24,2,23,25);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (25,"POPOTLA",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(25,2,24,26);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (26,"COLEGIO MILITAR",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(26,2,25,27);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (27,"NORMAL",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(27,2,26,28);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (28,"SAN COSME",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(28,2,27,29);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (29,"REVOLUCION",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(29,2,28,30);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (30,"HIDALGO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(30,2,29,31);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(30,3,49,50);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (31,"BELLAS ARTES",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(31,2,30,32);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(31,8,101,102);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (32,"ALLENDE",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(32,2,31,33);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (33,"ZOCALO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(33,2,32,10);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (34,"SAN ANTONIO ABAD",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(34,2,10,35);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (35,"CHABACANO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(35,2,34,36);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(35,8,104,105);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(35,9,70,120);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (36,"VIADUCTO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(36,2,35,37);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (37,"XOLA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(37,2,36,38);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (38,"VILLA DE CORTES",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(38,2,37,39);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (39,"NATIVITAS",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(39,2,38,40);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (40,"PORTALES",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(40,2,39,41);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (41,"ERMITA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(41,2,40,42);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(41,12,151,152);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (42,"GENERAL ANAYA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(42,2,41,43);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (43,"TASQUENA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(43,2,42,42);
+
+/*GREEN ROUTE 3*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (44,"INDIOS VERDES",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(44,3,45,45);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (45,"DEPORTIVO 18 DE MARZO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(45,3,44,46);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(45,6,82,83);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (46,"POTRERO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(46,3,45,47);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (47,"LA RAZA",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(47,3,46,48);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(47,5,74,75);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (48,"TLATELOLCO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(48,3,47,49);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (49,"GUERRERO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(49,3,48,50);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(49,11,132,101);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (50,"JUAREZ",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(50,3,30,13);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (51,"NINOS HEROES",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(51,3,13,52);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (52,"HOSPITAL GENERAL",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(52,3,51,53);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (53,"CENTRO MEDICO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(53,3,52,54);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(53,9,120,121);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (54,"ETIOPIA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(54,3,53,55);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (55,"EUGENIA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(55,3,54,56);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (56,"DIVISION DEL NORTE",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(56,3,55,57);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (57,"ZAPATA",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(57,3,56,58);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(57,12,149,150);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (58,"COYOACAN",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(58,3,57,59);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (59,"VIVEROS",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(59,3,58,60);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (60,"MIGUEL ANGEL DE QUEVEDO",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(60,3,59,61);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (61,"COPILCO",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(61,3,60,62);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (62,"UNIVERSIDAD",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(62,3,61,61);
+
+/*WATER GREEN ROUTE 4*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (63,"MARTIN CARRERA",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(63,4,64,64);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(63,6,82,82);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (64,"TALISMAN",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(64,4,63,65);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (65,"BONDOJITO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(65,4,64,66);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (66,"CONSULADO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(66,4,65,67);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(66,5,76,77);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (67,"CANAL DEL NORTE",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(67,4,66,68);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (68,"MORELOS",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(68,4,67,8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(68,11,134,7);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (69,"FRAY SERVANDO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(69,4,8,70);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (70,"JAMAICA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(70,4,69,71);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(70,9,119,35);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (71,"SANTA ANITA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(71,4,70,70);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(71,8,105,106);
+
+/*YELLOW ROUTE 5*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (72,"POLITECNICO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(72,5,73,73);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (73,"INSTITUTO DEL PETROLEO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(73,5,72,74);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(73,6,83,84);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (74,"AUTOBUSES DEL NORTE",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(74,5,73,47);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (75,"MISTERIOS",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(75,5,47,76);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (76,"VALLE GOMEZ",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(76,5,75,66);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (77,"EDUARDO MOLINA",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(77,5,66,78);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (78,"ARAGON",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(78,5,77,79);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (79,"OCEANIA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(79,5,78,80);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(79,11,136,137);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (80,"TERMINAL AEREA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(80,5,79,81);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (81,"HANGARES",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(81,5,80,1);
+
+/*RED ROUTE 6*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (82,"LA VILLA",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(82,6,63,45);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (83,"LINDAVISTA",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(83,6,45,73);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (84,"VALLEJO",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(84,6,73,85);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (85,"NORTE 45",2);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(85,6,84,86);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (86,"FERRERIA",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(86,6,85,87);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (87,"AZCAPOTZALCO",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(87,6,86,88);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (88,"TEZOZOMOC",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(88,6,87,89);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (89,"EL ROSARIO",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(89,6,88,88);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(89,7,90,90);
+
+/*ORANGE ROUTE 7*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (90,"AQUILES SERDAN",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(90,7,89,91);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (91,"CAMARONES",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(91,7,63,45);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (92,"REFINERIA",6);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(92,7,91,23);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (93,"SAN JOAQUIN",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(93,7,23,94);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (94,"POLANCO",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(94,7,93,95);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (95,"AUDITORIO",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(95,7,94,96);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (96,"CONSTITUYENTES",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(96,7,95,19);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (97,"SAN PEDRO DE LOS PINOS",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(97,7,19,98);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (98,"SN ANTONIO",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(98,7,97,99);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (99,"MIXCOAC",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(99,7,98,100);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(99,12,148,148);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (100,"BARRANCA DEL MUERTO",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(100,7,99,99);
+
+/*FLAG GREEN ROUTE 8*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (101,"GARIBALDI",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(101,8,31,31);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(101,11,49,133);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (102,"SAN JUAN DE LETRAN",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(102,8,31,12);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (103,"DOCTORES",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(103,8,12,104);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (104,"OBRERA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(104,8,103,35);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (105,"LA VIGA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(105,8,35,71);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (106,"COYUYA",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(106,8,71,107);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (107,"IZTACALCO",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(107,8,106,108);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (108,"APATLACO",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(108,8,107,109);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (109,"ACULCO",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(109,8,108,110);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (110,"ESCUADRON 201",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(110,8,109,111);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (111,"ATLALILCO",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(111,8,110,112);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(111,12,152,153);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (112,"IZTAPALAPA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(112,8,111,113);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (113,"C DE LA ESTRELLA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(113,8,112,114);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (114,"U.A.M",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(114,8,113,115);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (115,"CONST DE 1917",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(115,8,114,114);
+
+/*BROWN ROUTE 9*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (116,"PUEBLA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(116,9,1,117);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (117,"CIUDAD DEPORTIVA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(117,9,116,118);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (118,"VELODROMO",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(118,9,117,119);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (119,"MIXIUHCA",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(119,9,118,70);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (120,"LAZARO CARDENAS",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(120,9,35,53);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (121,"CHILPANCINGO",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(121,9,53,122);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (122,"PATRIOTISMO",4);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(122,9,121,19);
+
+/*A ROUTE 10*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (123,"AGRICOLA ORIENTAL",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(123,9,1,124);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (124,"CANAL DE SAN JUAN",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(124,9,123,125);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (125,"TEPALCATES",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(125,9,124,126);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (126,"GUELATAO",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(126,9,125,127);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (127,"PENON VIEJO",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(127,9,126,128);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (128,"ACATITLA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(128,9,127,129);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (129,"SANTA MARIA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(129,9,128,130);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (130,"LOS REYES",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(130,9,129,131);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (131,"LA PAZ",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(131,9,130,130);
+
+/*B ROUTE 11*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (132,"BUENAVISTA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(132,11,49,49);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (133,"LAGUNINLLA",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(133,11,101,134);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (134,"TEPITO",1);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(134,11,133,68);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (135,"FLORES MAGON",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(135,11,7,136);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (136,"ROMERO RUBIO",5);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(136,11,135,79);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (137,"DEPORTIVO OCEANIA",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(137,11,79,138);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (138,"BOSQUE DE ARAGON",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(138,11,137,139);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (139,"VILLA DE ARAGON",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(139,11,138,140);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (140,"NEZAHUALCOYOTL",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(140,11,139,141);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (141,"IMPULSORA",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(141,11,140,142);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (142,"RIO DE LOS REMEDIOS",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(142,11,141,143);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (143,"MUZQUIZ",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(143,11,142,144);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (144,"ECATEPEC",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(144,11,143,145);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (145,"OLIMPICA",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(145,11,145,144);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (146,"PLAZA ARAGON",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(146,11,145,147);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (147,"CIUDAD AZTECA",7);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(147,11,146,146);
+
+/*GOLDEN ROUTE 12*/
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (148,"INSURGENTES SUR",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(148,12,99,149);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (149,"HOSPITAL 20 DE NOVIEMBRE",8);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(149,12,148,57);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (150,"PARQUE DE LOS VENADOS",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(150,12,57,151);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (151,"EJE CENTRAL",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(151,12,150,41);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (152,"MEXICALTZINGO",3);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(152,12,41,111);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (153,"CULHUACAN",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(153,12,111,154);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (154,"SAN ANDRES TOMATLAN",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(154,12,153,155);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (155,"LOMAS ESTRELLA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(155,12,154,156);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (156,"CALLE 11",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(156,12,155,157);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (157,"PERIFERICO OTE",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(157,12,156,158);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (158,"TEZONCO",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(158,12,157,159);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (159,"OLIVOS",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(159,12,158,160);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (160,"NOPALERA",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(160,12,159,161);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (161,"ZAPOTITLAN",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(161,12,160,162);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (162,"TLALTENCO",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(162,12,161,163);
+INSERT INTO stops(stop_id,stop_name,stop_zone) VALUES (163,"TLAHUAC",9);
+INSERT INTO connections(stop_id,route_id,last_stop,next_stop) VALUES(163,12,163,163);
+
+/*SUBWAYS*/
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(1,-1,15);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(1,-1,14);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(1,1,8);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(2,1,27);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(2,-1,35);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(3,1,56);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(3,-1,49);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(4,1,66);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(4,-1,70);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(5,-1,78);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(5,1,72);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(6,-1,86);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(7,1,95);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(7,-1,93);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(8,1,106);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(8,-1,106);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(9,-1,121);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(9,1,19);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(10,1,1);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(11,1,1);
+INSERT INTO subways(subway_route,subway_direction,subway_current_stop) VALUES(12,-1,151);
+
+/*DRIVERS*/
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("JOSE","SANCHEZ",6,8,1);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("DANNY","SNOW",6,8,2);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("CHAPO","GUZMAN",6,8,3);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("PRINCESS","CAROLYN",9,8,4);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("RICK","SANCHEZ",6,8,5);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("MORTY","LUBADUBBDUBB",6,8,6);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("BOJACK","HORSEMAN",6,8,7);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("ROBIN","HOOD",5,8,8);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("THE BEAUTY","AND THE BEAST",6,8,9);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("SIMBA","PUMBA",6,8,10);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("THOM","YORKE",9,8,11);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("JUAN","GABRIEL",6,10,12);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("ROBERT","DENIRO",6,6,13);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("LAURA","PALMER",7,8,14);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("DALE","COOP",6,14,15);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("THE LOG","LADY",6,8,16);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("MR","ROBOT",21,4,17);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("PEPILLO","ORIGEL",6,8,18);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("LAURA","BOZO",6,12,19);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("JOSE","JOSE",4,10,20);
+INSERT INTO drivers(driver_fname,driver_lname,driver_shift_start,driver_shift_hours,driver_sub)
+VALUES("MAD","MAX",7,8,21);
+
+
+/* DISRUPTIONS*/
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(91,7,"flood",11,19,09,1985,07,10,12,1985);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(141,11,"zombies",10,19,09,2017,05,22,09,2017);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(81,5,"fire",12,20,04,2012,03,15,05,2012);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(69,4,"monster",6,8,09,2013,04,11,10,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(43,2,"clowns",2,4,04,2013,5,4,04,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(163,12,"flood",8,20,12,2015,06,11,01,2016);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(106,8,"zombie",9,19,07,2014,10,10,08,2014);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(12,8,"fire",21,7,10,2013,05,9,10,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(158,12,"earthquake",17,21,03,2015,04,22,03,2015);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(47,3,"flood",15,17,01,2014,15,22,01,2014);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(65,4,"volcano",6,14,02,2012,8,14,02,2012);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(140,11,"earthquake",5,26,07,2013,8,28,07,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(80,5,"fire",12,04,04,2016,13,04,04,2016);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(3,1,"flood",6,22,10,2015,05,23,10,2015);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(131,10,"earthquake",7,18,05,2017,8,18,05,2017);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(130,10,"hurricane",3,13,07,2015,8,15,07,2015);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(107,8,"sharknado",2,26,08,2016,5,26,08,2016);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(162,12,"tsunami",14,18,10,2012,17,18,10,2012);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(161,12,"volcano",10,23,11,2014,05,25,11,2014);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(110,8,"fire",9,9,03,2013,11,9,03,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(46,3,"sharknado",21,9,06,2017,22,9,06,2017);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(4,1,"sharknado",20,22,05,2013,06,23,05,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(159,12,"tornado",11,16,02,2012,08,17,02,2012);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(117,9,"volcano",8,15,05,2014,14,15,05,2014);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(129,10,"zombies",10,11,09,2016,13,11,09,2016);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(48,3,"flood",13,14,06,2015,16,16,06,2015);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(82,6,"earthquake",12,24,08,2013,13,24,08,2013);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(142,11,"fire",6,17,11,2014,8,17,11,2014);
+INSERT INTO disruptions(dis_stop,dis_route,dis_name,dis_start_hr,dis_startD, dis_startM,dis_startY,dis_end_hr,dis_endD,dis_endM,dis_endY)
+VALUES(128,10,"crash",9,01,04,2016,12,01,04,2016);
+
+
+
+
+
